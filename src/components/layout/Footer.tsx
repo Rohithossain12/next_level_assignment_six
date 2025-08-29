@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+import { Button } from "../ui/button";
 
 
 export default function Footer() {
@@ -5,7 +7,7 @@ export default function Footer() {
     <footer className="bg-[#0D0D2B] text-white py-8 px-5">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {/* Company Info */}
+         
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2 mb-6">
               <img
@@ -64,26 +66,26 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Navigation Links */}
+          
           <div className="lg:col-span-1">
             <h3 className="text-xl font-semibold mb-6">Quick Links</h3>
             <ul className="space-y-1 text-xs">
               <li>
-                <a href="/" className="text-gray-300 hover:text-white transition-colors">Home</a>
+                <Link to="/" className="text-gray-300 hover:text-white transition-colors">Home</Link>
               </li>
               <li>
-                <a href="/about" className="text-gray-300 hover:text-white transition-colors">About</a>
+                <Link to="/about" className="text-gray-300 hover:text-white transition-colors">About</Link>
               </li>
               <li>
-                <a href="/contact" className="text-gray-300 hover:text-white transition-colors">Contact</a>
+                <Link to="/contact" className="text-gray-300 hover:text-white transition-colors">Contact</Link>
               </li>
               <li>
-                <a href="/track-parcel" className="text-gray-300 hover:text-white transition-colors">Track Parcel</a>
+                <Link to="/track-parcel" className="text-gray-300 hover:text-white transition-colors">Track Parcel</Link>
               </li>
             </ul>
           </div>
 
-          {/* Contact Info */}
+          
           <div className="lg:col-span-1">
             <h3 className="text-xl font-semibold mb-6">Contact</h3>
             <p className="text-gray-300 mb-4 leading-relaxed text-xs">
@@ -97,7 +99,7 @@ export default function Footer() {
             </a>
           </div>
 
-          {/* Newsletter */}
+          
           <div className="lg:col-span-1">
             <h3 className="text-xl font-semibold mb-6">Newsletter</h3>
             <p className="text-gray-300 mb-6 text-xs">Subscribe to our weekly updates!</p>
@@ -109,11 +111,11 @@ export default function Footer() {
                   placeholder="Enter your email address here"
                   className="bg-white text-black border-0 rounded-md px-3 py-2 flex-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                 />
-                <button className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md transition-colors flex items-center justify-center">
+                <Button className=" px-4 py-2 rounded-md transition-colors flex items-center justify-center">
                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
-                </button>
+                </Button>
               </div>
 
               <div className="flex items-center space-x-2">
@@ -130,7 +132,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Section */}
+        
         <div className="mt-12 pt-8 border-t border-gray-700 text-center">
           <div className="text-xs text-gray-400 mb-2">
             ©2025 TrackFast. All Rights Reserved. |
