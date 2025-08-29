@@ -1,3 +1,5 @@
+import { Outlet } from "react-router"
+import CommonLayout from "./components/layout/Common.layout"
 
 
 function App() {
@@ -6,7 +8,9 @@ function App() {
   return (
     <>
       <div>
-        <h1 className="text-3xl">Welcome to Parcel Delivery System</h1>
+        <CommonLayout>
+          <Outlet />
+        </CommonLayout>
       </div>
 
     </>
