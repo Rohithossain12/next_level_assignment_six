@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -23,7 +24,7 @@ export function LoginForm({
     ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
     const navigate = useNavigate();
-    const form = useForm({ });
+    const form = useForm({});
     const [login] = useLoginMutation();
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         try {
@@ -33,16 +34,16 @@ export function LoginForm({
                 toast.success("Logged in successfully");
                 navigate("/");
             }
-        } catch (err) {
+        } catch (err: unknown) {
             console.error(err);
-
-            if (err.data.message === "Password does not match") {
+            const error = err as any;
+            if (error.data.message === "Password does not match") {
                 toast.error("Invalid credentials");
             }
 
-            if (err.data.message === "User is not verified") {
+            if (error.data.message === "User is not verified") {
                 toast.error("Your account is not verified");
-               
+                navigate("/verify", { state: data.email });
             }
         }
     };
@@ -107,7 +108,7 @@ export function LoginForm({
                     </span>
                 </div>
 
-                {/*//* http://localhost:5000/api/v1/auth/google */}
+              
                 <Button
                     onClick={() => window.open(`${config.baseUrl}/auth/google`)}
                     type="button"

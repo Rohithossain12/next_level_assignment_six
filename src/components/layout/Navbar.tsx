@@ -1,28 +1,41 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Menu } from "lucide-react";
 import { useState } from "react";
 import { ModeToggle } from "./ModeToggler";
 import { Button } from "../ui/button";
 import { Link } from "react-router";
+import { authApi, useLogoutMutation, useUserInfoQuery } from "@/redux/features/auth/auth.api";
+import { useAppDispatch } from "@/redux/hook";
+import { toast } from "sonner";
+
+const navItems = [
+  { name: "HOME", path: "/" },
+  { name: "ABOUT", path: "/about" },
+  { name: "CONTACT", path: "/contact" },
+];
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const { data: userInfo } = useUserInfoQuery(undefined);
 
-  const user = {
-    email: ""
+  const dispatch = useAppDispatch();
+  const [logout] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    try {
+      const res = await logout(undefined).unwrap();
+      dispatch(authApi.util.resetApiState());
+      toast.success(res?.message || "User logged out successfully");
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Logout failed");
+    }
   };
-
-  const navItems = [
-    { name: "HOME", path: "/" },
-    { name: "ABOUT", path: "/about" },
-    { name: "CONTACT", path: "/contact" },
-  ];
 
   return (
     <nav className="sticky top-0 z-50 shadow-md bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-
           <div className="flex items-center">
             <img
               className="w-12 h-12 mr-2"
@@ -31,7 +44,6 @@ export default function Navbar() {
             />
             <p className="font-bold text-xl">TrackFast</p>
           </div>
-
 
           <div className="hidden md:flex space-x-6 items-center">
             {navItems.map((item) => (
@@ -46,17 +58,16 @@ export default function Navbar() {
 
             <ModeToggle />
 
-
-            {user.email ? (
-              <Button>LOGOUT</Button>
+            {userInfo?.data?.email ? (
+              <Button onClick={handleLogout}>LOGOUT</Button>
             ) : (
               <Link to="/login">
-                <Button >LOGIN</Button>
+                <Button>LOGIN</Button>
               </Link>
             )}
           </div>
 
-          {/* Mobile Menu Button */}
+          
           <div className="md:hidden">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -68,7 +79,7 @@ export default function Navbar() {
         </div>
       </div>
 
-
+   
       {menuOpen && (
         <div className="md:hidden backdrop-blur-md shadow-md">
           <div className="px-4 pt-2 pb-4 flex flex-col space-y-4">
@@ -87,14 +98,13 @@ export default function Navbar() {
               <ModeToggle />
             </div>
 
-
-            {user.email ? (
-              <Button className="w-full">LOGOUT</Button>
+            {userInfo?.data?.email ? (
+              <Button className="w-full" onClick={handleLogout}>
+                LOGOUT
+              </Button>
             ) : (
               <Link to="/login" onClick={() => setMenuOpen(false)}>
-                <Button className="w-full">
-                  LOGIN
-                </Button>
+                <Button className="w-full">LOGIN</Button>
               </Link>
             )}
           </div>

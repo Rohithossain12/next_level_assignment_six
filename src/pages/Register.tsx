@@ -21,6 +21,7 @@ export default function Register() {
             className="w-16 h-16"
              src="https://img.icons8.com/?size=100&id=11910&format=png&color=000000" alt="" />
           </Link>
+        
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
