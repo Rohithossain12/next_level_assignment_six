@@ -108,7 +108,7 @@ export function LoginForm({
                     </span>
                 </div>
 
-              
+
                 <Button
                     onClick={() => window.open(`${config.baseUrl}/auth/google`)}
                     type="button"
