@@ -3,14 +3,19 @@ import { useState } from "react";
 import { ModeToggle } from "./ModeToggler";
 import { Button } from "../ui/button";
 import { Link } from "react-router";
+
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+
+
+  const user = {
+    email: ""
+  };
 
   const navItems = [
     { name: "HOME", path: "/" },
     { name: "ABOUT", path: "/about" },
     { name: "CONTACT", path: "/contact" },
-
   ];
 
   return (
@@ -38,11 +43,20 @@ export default function Navbar() {
                 {item.name}
               </Link>
             ))}
+
             <ModeToggle />
-            <Button>REGISTER</Button>
+
+
+            {user.email ? (
+              <Button>LOGOUT</Button>
+            ) : (
+              <Link to="/login">
+                <Button >LOGIN</Button>
+              </Link>
+            )}
           </div>
 
-
+          {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -58,7 +72,6 @@ export default function Navbar() {
       {menuOpen && (
         <div className="md:hidden backdrop-blur-md shadow-md">
           <div className="px-4 pt-2 pb-4 flex flex-col space-y-4">
-
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -70,18 +83,20 @@ export default function Navbar() {
               </Link>
             ))}
 
-
-            <div >
+            <div>
               <ModeToggle />
             </div>
 
 
-            <Button
-              className="w-full"
-              onClick={() => setMenuOpen(false)}
-            >
-              REGISTER
-            </Button>
+            {user.email ? (
+              <Button className="w-full">LOGOUT</Button>
+            ) : (
+              <Link to="/login" onClick={() => setMenuOpen(false)}>
+                <Button className="w-full">
+                  LOGIN
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       )}
