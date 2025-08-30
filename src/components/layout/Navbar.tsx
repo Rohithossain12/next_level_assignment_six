@@ -16,7 +16,6 @@ const navItems = [
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-
   const { data: userInfo } = useUserInfoQuery(undefined);
 
   const dispatch = useAppDispatch();
