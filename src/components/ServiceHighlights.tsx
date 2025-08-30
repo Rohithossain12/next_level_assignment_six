@@ -28,7 +28,7 @@ export default function ServiceHighlights() {
     <section className="relative py-12 px-4 md:px-8 lg:px-16 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950">
       
       <div className="text-center mb-8">
-        <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
           Service Highlights
         </h2>
         <p className="mt-3 text-gray-600 dark:text-gray-300">
