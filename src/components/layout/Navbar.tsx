@@ -50,7 +50,7 @@ export default function Navbar() {
               <Link
                 key={item.name}
                 to={item.path}
-                className="border-b-2 border-transparent hover:border-blue-600 transition-all"
+                className="border-b-2 border-transparent hover:border-rose-500 transition-all"
               >
                 {item.name}
               </Link>
@@ -87,7 +87,7 @@ export default function Navbar() {
               <Link
                 key={item.name}
                 to={item.path}
-                className="block border-b-2 border-transparent hover:border-blue-600 transition-all"
+                className="block border-b-2 border-transparent hover:border-rose-500 transition-all"
                 onClick={() => setMenuOpen(false)}
               >
                 {item.name}

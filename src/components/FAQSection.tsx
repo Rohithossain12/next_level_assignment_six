@@ -31,7 +31,8 @@ export default function FAQSection() {
   };
 
   return (
-    <section className="py-12 px-6 dark:bg-gray-900">
+    <section className="py-12 px-6 
+    ">
       <h2 className="text-2xl md:text-3xl font-bold text-center mb-12 text-gray-900 dark:text-white">
         Frequently Asked Questions
       </h2>
@@ -43,7 +44,7 @@ export default function FAQSection() {
             <div
               key={index}
               className={`rounded-xl overflow-hidden transition-all duration-300 
-                ${isOpen ? "border-2 border-blue-500 shadow-lg" : "border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md"}
+                ${isOpen ? "shadow-lg" : "border border-gray-200 shadow-sm hover:shadow-md"}
               `}
             >
               <button
@@ -59,7 +60,7 @@ export default function FAQSection() {
               </button>
 
               {isOpen && (
-                <div className="px-6 py-4 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 transition-all duration-300">
+                <div className="px-6 py-4 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-200 transition-all duration-300">
                   {faq.answer}
                 </div>
               )}
