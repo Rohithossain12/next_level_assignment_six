@@ -1,13 +1,15 @@
-import Analytics from "@/pages/Admin/Analytics";
-import ManageUsers from "@/pages/Admin/ManageUsers";
+
 import type { ISidebarItem } from "@/types";
+import { lazy } from "react";
+const Analytics =lazy(()=> import("@/pages/Admin/Analytics"))
+const ManageUsers =lazy(()=> import("@/pages/Admin/ManageUsers"))
 
 export const adminSidebarItems: ISidebarItem[] = [
   {
     title: "Dashboard",
     items: [
       {
-        title: "Analysis",
+        title: "Analytics",
         url: "/admin/analytics",
         component: Analytics
       },

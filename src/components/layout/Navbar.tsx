@@ -7,11 +7,16 @@ import { Link } from "react-router";
 import { authApi, useLogoutMutation, useUserInfoQuery } from "@/redux/features/auth/auth.api";
 import { useAppDispatch } from "@/redux/hook";
 import { toast } from "sonner";
+import { role } from "@/constants/role";
 
 const navItems = [
-  { name: "HOME", path: "/" },
-  { name: "ABOUT", path: "/about" },
-  { name: "CONTACT", path: "/contact" },
+  { name: "HOME", path: "/", role: "PUBLIC" },
+  { name: "ABOUT", path: "/about", role: "PUBLIC" },
+  { name: "CONTACT", path: "/contact", role: "PUBLIC" },
+  { name: "DASHBOARD", path: "/admin", role: role.admin },
+  { name: "DASHBOARD", path: "/admin", role: role.superAdmin },
+  { name: "DASHBOARD", path: "/sender", role: role.sender },
+  { name: "DASHBOARD", path: "/receiver", role: role.receiver },
 ];
 
 export default function Navbar() {
@@ -46,13 +51,30 @@ export default function Navbar() {
 
           <div className="hidden md:flex space-x-6 items-center">
             {navItems.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                className="border-b-2 border-transparent hover:border-rose-500 transition-all"
-              >
-                {item.name}
-              </Link>
+              <>
+                {item.role === "PUBLIC" && (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    className="border-b-2 border-transparent hover:border-rose-500 transition-all"
+                  >
+                    {item.name}
+                  </Link>
+                )}
+                {item.role === userInfo?.data?.role && (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    className="border-b-2 border-transparent hover:border-rose-500 transition-all"
+                  >
+                    {item.name}
+                  </Link>
+                )}
+
+
+
+
+              </>
             ))}
 
             <ModeToggle />
@@ -66,7 +88,7 @@ export default function Navbar() {
             )}
           </div>
 
-          
+
           <div className="md:hidden">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -78,19 +100,35 @@ export default function Navbar() {
         </div>
       </div>
 
-   
+
       {menuOpen && (
         <div className="md:hidden backdrop-blur-md shadow-md">
           <div className="px-4 pt-2 pb-4 flex flex-col space-y-4">
             {navItems.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                className="block border-b-2 border-transparent hover:border-rose-500 transition-all"
-                onClick={() => setMenuOpen(false)}
-              >
-                {item.name}
-              </Link>
+              <>
+                {item.role === "PUBLIC" && (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    className="border-b-2 border-transparent hover:border-rose-500 transition-all"
+                  >
+                    {item.name}
+                  </Link>
+                )}
+                {item.role === userInfo?.data?.role && (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    className="border-b-2 border-transparent hover:border-rose-500 transition-all"
+                  >
+                    {item.name}
+                  </Link>
+                )}
+
+
+
+
+              </>
             ))}
 
             <div>

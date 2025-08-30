@@ -10,7 +10,7 @@ import Register from "@/pages/Register";
 import Unauthorized from "@/pages/Unauthorized";
 import Verify from "@/pages/Verify";
 import { generateRoutes } from "@/utils/generateRoutes";
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import { adminSidebarItems } from "./adminSidebarItems";
 import { senderSidebarItems } from "./senderSidebarItems";
 import { receiverSidebarItems } from "./receiverSidebarItems";
@@ -43,6 +43,8 @@ export const router = createBrowserRouter([
     path: "/admin",
     Component: DashboardLayout,
     children: [
+
+      { index: true, element: <Navigate to="/admin/analytics" /> },
       ...generateRoutes(adminSidebarItems)
     ]
   },
@@ -51,14 +53,18 @@ export const router = createBrowserRouter([
   {
     path: "/sender",
     Component: DashboardLayout,
-    children: [...generateRoutes(senderSidebarItems)]
+    children: [
+      { index: true, element: <Navigate to="/sender/create-parcel" /> },
+      ...generateRoutes(senderSidebarItems)]
   },
 
   // Receiver Routes
   {
     path: "/receiver",
     Component: DashboardLayout,
-    children: [...generateRoutes(receiverSidebarItems)]
+    children: [
+      { index: true, element: <Navigate to="/receiver/incoming-parcels" /> },
+      ...generateRoutes(receiverSidebarItems)]
   },
 
   {

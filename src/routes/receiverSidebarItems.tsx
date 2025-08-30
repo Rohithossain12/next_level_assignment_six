@@ -1,6 +1,10 @@
 
-import GetIncomingParcels from "@/pages/Receiver/GetIncomingParcels";
+;
 import type { ISidebarItem } from "@/types";
+import { lazy } from "react";
+
+
+const GetIncomingParcels =lazy(()=> import("@/pages/Receiver/GetIncomingParcels"))
 
 export const receiverSidebarItems: ISidebarItem[] = [
     {
