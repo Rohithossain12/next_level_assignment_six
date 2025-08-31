@@ -48,13 +48,15 @@ export const authApi = baseApi.injectEndpoints({
       providesTags: ["USER"],
     }),
 
-   
-    getAllUsers: builder.query<IResponse<any>, void>({
-      query: () => ({
+
+    getAllUsers: builder.query<IResponse<any>, { page?: number,limit?: number }>({
+      query: (params) => ({
         url: "/user/all-users",
         method: "GET",
+        params
       }),
       providesTags: ["USER"],
+
     }),
 
     getSingleUser: builder.query<IResponse<any>, string>({

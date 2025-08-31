@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useGetAllUsersQuery, useUpdateUserMutation } from "@/redux/features/auth/auth.api";
@@ -20,14 +21,25 @@ import {
     SelectContent,
     SelectItem,
 } from "@/components/ui/select";
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination"
 
 import { toast } from "sonner";
 
 const roles = ["SUPER_ADMIN", "ADMIN", "SENDER", "RECEIVER"];
 
 export default function ManageUsers() {
-    const { data, isLoading, isError } = useGetAllUsersQuery();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [limit, setLimit] = useState(10)
+    const { data, isLoading, isError } = useGetAllUsersQuery({ page: currentPage, limit });
     const [updateUser] = useUpdateUserMutation();
+
 
     const [open, setOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState<any>(null);
@@ -55,14 +67,20 @@ export default function ManageUsers() {
         }
     };
 
+
+
+    const totalPage = data?.meta?.totalPage || 1
+
+
+
     return (
         <div className="p-4">
             <h1 className="text-xl font-bold mb-4">Manage Users</h1>
 
             <div className="overflow-x-auto">
-                <table className="w-full border border-gray-200 rounded-lg shadow-sm">
+                <table className="w-full border  dark:border-gray-700  rounded-lg shadow-sm">
                     <thead>
-                        <tr className="bg-gray-100">
+                        <tr className="">
                             <th className="py-2 px-4 text-left">#</th>
                             <th className="py-2 px-4 text-left">Name</th>
                             <th className="py-2 px-4 text-left">Email</th>
@@ -72,7 +90,7 @@ export default function ManageUsers() {
                     </thead>
                     <tbody>
                         {users.map((user: any, index: number) => (
-                            <tr key={user._id} className="border-t hover:bg-gray-50">
+                            <tr key={user._id} className="border-t">
                                 <td className="py-2 px-4">{index + 1}</td>
                                 <td className="py-2 px-4">{user.name}</td>
                                 <td className="py-2 px-4">{user.email}</td>
@@ -80,9 +98,9 @@ export default function ManageUsers() {
                                 <td className="py-2 px-4 text-center">
                                     <button
                                         onClick={() => handleEdit(user)}
-                                        className="p-2 rounded-full hover:bg-blue-100"
+                                        className="p-2 rounded-full bg-rose-100"
                                     >
-                                        <Pencil className="w-5 h-5 text-blue-600" />
+                                        <Pencil className="w-4 h-4 text-rose-500" />
                                     </button>
                                 </td>
                             </tr>
@@ -136,6 +154,35 @@ export default function ManageUsers() {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
+
+            {
+                totalPage > 1 && <div className="flex justify-end mt-2">
+                    <div>
+                        <Pagination>
+                            <PaginationContent>
+                                <PaginationItem>
+                                    <PaginationPrevious onClick={() => setCurrentPage((prev) => prev - 1)}
+                                        className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                                    />
+                                </PaginationItem>
+                                {
+
+                                    Array.from({ length: totalPage }, (_, index) => index + 1).map((page) => <PaginationItem key={page}
+                                        onClick={() => setCurrentPage(page)}
+                                    >
+                                        <PaginationLink isActive={currentPage === page}>{page}</PaginationLink>
+                                    </PaginationItem>)
+
+                                }
+                                <PaginationItem>
+                                    <PaginationNext onClick={() => setCurrentPage((prev) => prev + 1)}
+                                        className={currentPage === totalPage ? "pointer-events-none opacity-50" : "cursor-pointer"} />
+                                </PaginationItem>
+                            </PaginationContent>
+                        </Pagination>
+                    </div>
+                </div>
+            }
         </div>
     );
 }
