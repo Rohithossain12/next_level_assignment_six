@@ -1,8 +1,9 @@
 
+import Profile from "@/pages/Profile";
 import type { ISidebarItem } from "@/types";
 import { lazy } from "react";
-const Analytics =lazy(()=> import("@/pages/Admin/Analytics"))
-const ManageUsers =lazy(()=> import("@/pages/Admin/ManageUsers"))
+const Analytics = lazy(() => import("@/pages/Admin/Analytics"))
+const ManageUsers = lazy(() => import("@/pages/Admin/ManageUsers"))
 
 export const adminSidebarItems: ISidebarItem[] = [
   {
@@ -21,7 +22,17 @@ export const adminSidebarItems: ISidebarItem[] = [
       {
         title: "Manage Users",
         url: "/admin/users",
-        component:ManageUsers
+        component: ManageUsers
+      },
+    ],
+  },
+  {
+    title: "Account",
+    items: [
+      {
+        title: "Profile",
+        url: "/admin/profile",
+        component: Profile,
       },
     ],
   },

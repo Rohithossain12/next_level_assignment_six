@@ -14,6 +14,9 @@ import { createBrowserRouter, Navigate } from "react-router";
 import { adminSidebarItems } from "./adminSidebarItems";
 import { senderSidebarItems } from "./senderSidebarItems";
 import { receiverSidebarItems } from "./receiverSidebarItems";
+import { withAuth } from "@/utils/withAuth";
+import { role } from "@/constants/role";
+import type { TRole } from "@/types";
 
 
 export const router = createBrowserRouter([
@@ -41,7 +44,7 @@ export const router = createBrowserRouter([
 
   {
     path: "/admin",
-    Component: DashboardLayout,
+    Component: withAuth(DashboardLayout, [role.superAdmin, role.admin] as TRole[]),
     children: [
 
       { index: true, element: <Navigate to="/admin/analytics" /> },
@@ -52,7 +55,7 @@ export const router = createBrowserRouter([
   // Sender Routes
   {
     path: "/sender",
-    Component: DashboardLayout,
+    Component: withAuth(DashboardLayout, role.sender as TRole),
     children: [
       { index: true, element: <Navigate to="/sender/create-parcel" /> },
       ...generateRoutes(senderSidebarItems)]
@@ -61,7 +64,7 @@ export const router = createBrowserRouter([
   // Receiver Routes
   {
     path: "/receiver",
-    Component: DashboardLayout,
+    Component: withAuth(DashboardLayout, role.receiver as TRole),
     children: [
       { index: true, element: <Navigate to="/receiver/incoming-parcels" /> },
       ...generateRoutes(receiverSidebarItems)]
