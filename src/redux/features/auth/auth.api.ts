@@ -2,6 +2,13 @@
 import { baseApi } from "@/redux/baseApi";
 import type { IResponse, ISendOtp, IVerifyOtp } from "@/types";
 
+
+interface GetUsersParams {
+  page?: number;
+  limit?: number;
+}
+
+
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
@@ -50,7 +57,7 @@ export const authApi = baseApi.injectEndpoints({
 
 
     getAllUsers: builder.query<IResponse<any>, { page?: number,limit?: number }>({
-      query: (params) => ({
+      query: (params:GetUsersParams) => ({
         url: "/user/all-users",
         method: "GET",
         params

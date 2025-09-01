@@ -46,7 +46,7 @@ type CreateParcelFormValues = z.infer<typeof formSchema>;
 
 export default function CreateParcel() {
     const [createParcel, { isLoading }] = useCreateParcelMutation();
-    const { data: usersResponse } = useGetAllUsersQuery({ page: 1, limit: 100 });
+    const { data: usersResponse } = useGetAllUsersQuery({});
 
 
     const users =

@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/pagination"
 
 import { toast } from "sonner";
+import Spinner from "@/components/ui/Spinner";
 
 const roles = ["SUPER_ADMIN", "ADMIN", "SENDER", "RECEIVER"];
 
@@ -45,7 +46,7 @@ export default function ManageUsers() {
     const [selectedUser, setSelectedUser] = useState<any>(null);
     const [role, setRole] = useState<string>("");
 
-    if (isLoading) return <p className="p-4">Loading users...</p>;
+    if (isLoading) return <Spinner/>
     if (isError) return <p className="p-4 text-red-500">Failed to load users</p>;
 
     const users = data?.data || [];

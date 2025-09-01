@@ -1,5 +1,6 @@
 
 import Profile from "@/pages/Profile";
+import GetMyParcels from "@/pages/Sender/GetMyParcels";
 import type { ISidebarItem } from "@/types";
 import { lazy } from "react";
 
@@ -13,6 +14,11 @@ export const senderSidebarItems: ISidebarItem[] = [
                 title: "Parcel Create",
                 url: "/sender/create-parcel",
                 component: CreateParcel
+            },
+            {
+                title: "My Parcel",
+                url: "/sender/parcel/me",
+                component: GetMyParcels
             },
         ],
     },
