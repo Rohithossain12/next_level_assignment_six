@@ -87,7 +87,6 @@ export default function MyParcelsTable() {
                   {lastStatus === "REQUESTED" && (
                     <Button
                       size="sm"
-                      variant="destructive"
                       onClick={() => handleCancel(parcel._id)}
                       disabled={cancellingId === parcel._id}
                     >
