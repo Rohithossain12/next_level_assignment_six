@@ -1,4 +1,5 @@
 
+import GetAllParcels from "@/pages/Admin/GetAllParcels";
 import Profile from "@/pages/Profile";
 import type { ISidebarItem } from "@/types";
 import { lazy } from "react";
@@ -23,6 +24,16 @@ export const adminSidebarItems: ISidebarItem[] = [
         title: "Manage Users",
         url: "/admin/users",
         component: ManageUsers
+      },
+    ],
+  },
+  {
+    title: "Parcel",
+    items: [
+      {
+        title: "All Parcel",
+        url: "/admin/parcel",
+        component: GetAllParcels
       },
     ],
   },

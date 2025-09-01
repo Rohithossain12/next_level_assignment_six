@@ -5,7 +5,8 @@ import axios, { type AxiosRequestConfig } from "axios"
 
 export const axiosInstance = axios.create({
     baseURL: config.baseUrl,
-    withCredentials: true
+    withCredentials: true,
+    
 });
 
 axiosInstance.interceptors.request.use(function (config) {
