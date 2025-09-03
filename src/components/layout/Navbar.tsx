@@ -11,6 +11,7 @@ import { role } from "@/constants/role";
 
 const navItems = [
   { name: "HOME", path: "/", role: "PUBLIC" },
+  { name: "TRACK PARCEL", path: "/track-parcel", role: role.receiver },
   { name: "ABOUT", path: "/about", role: "PUBLIC" },
   { name: "CONTACT", path: "/contact", role: "PUBLIC" },
   { name: "DASHBOARD", path: "/admin", role: role.admin },

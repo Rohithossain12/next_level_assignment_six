@@ -1,18 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-
-
-
 import { useGetAllParcelsQuery } from "@/redux/features/parcel/parcel.api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, UserCheck, UserPlus, Package, DollarSign } from "lucide-react";
 import { useGetAllUsersQuery } from "@/redux/features/auth/auth.api";
+import Spinner from "@/components/ui/Spinner";
 
 export default function Analytics() {
-  const { data: usersData } = useGetAllUsersQuery({});
-  const { data: parcelsData } = useGetAllParcelsQuery(undefined);
+  const { data: usersData, isLoading: isLoadingUsers } = useGetAllUsersQuery({});
+  const { data: parcelsData, isLoading: isLoadingParcels } = useGetAllParcelsQuery(undefined);
 
-  
   const users = usersData?.data || [];
   const parcels = parcelsData?.data || [];
 
@@ -58,6 +55,12 @@ export default function Analytics() {
       color: "bg-yellow-100 dark:bg-yellow-900",
     },
   ];
+
+
+
+  if (isLoadingUsers || isLoadingParcels) {
+    return <Spinner/>;
+  }
 
   return (
     <div className="p-6">
