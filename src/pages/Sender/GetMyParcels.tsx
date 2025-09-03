@@ -14,7 +14,7 @@ export default function MyParcelsTable() {
   const [cancellingId, setCancellingId] = useState<string | null>(null);
 
   if (isLoading) return <Spinner/>;
-  if (isError) return <p>Failed to load parcels.</p>;
+  if (isError) return <p className="text-red-500">Failed to load parcels.</p>;
 
   const handleCancel = async (id: string) => {
     try {

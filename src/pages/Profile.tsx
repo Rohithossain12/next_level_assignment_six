@@ -47,7 +47,7 @@ const Profile = () => {
   if (isLoading) return <Spinner />;
 
   return (
-    <div className="min-h-screen   py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+    <div className="min-h-screen  py-6 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
         <div className="bg-white dark:bg-gray-800 border rounded-2xl overflow-hidden md:flex">
 
