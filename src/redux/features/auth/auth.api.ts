@@ -56,8 +56,8 @@ export const authApi = baseApi.injectEndpoints({
     }),
 
 
-    getAllUsers: builder.query<IResponse<any>, { page?: number,limit?: number }>({
-      query: (params:GetUsersParams) => ({
+    getAllUsers: builder.query<IResponse<any>, { page?: number, limit?: number }>({
+      query: (params: GetUsersParams) => ({
         url: "/user/all-users",
         method: "GET",
         params
@@ -82,7 +82,17 @@ export const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["USER"],
     }),
+    updateMyProfile: builder.mutation<IResponse<any>, any>({
+      query: (data) => ({
+        url: "/user/me",
+        method: "PATCH",
+        data,
+      }),
+      invalidatesTags: ["USER"],
+    }),
+
   }),
+
 });
 
 export const {
@@ -95,4 +105,5 @@ export const {
   useGetAllUsersQuery,
   useGetSingleUserQuery,
   useUpdateUserMutation,
+  useUpdateMyProfileMutation
 } = authApi;
