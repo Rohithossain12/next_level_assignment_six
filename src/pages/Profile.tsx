@@ -1,16 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+
 import React, { useState, useEffect } from "react";
-import { useUserInfoQuery, useUpdateMyProfileMutation } from "@/redux/features/auth/auth.api";
+import { useUserInfoQuery, useUpdateMyProfileMutation, useChangePasswordMutation, useForgotPasswordMutation, useResetPasswordMutation } from "@/redux/features/auth/auth.api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
+
 import { toast } from "sonner";
 import Spinner from "@/components/ui/Spinner";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Profile = () => {
   const { data, isLoading } = useUserInfoQuery(undefined);
   const [updateMyProfile, { isLoading: isUpdating }] = useUpdateMyProfileMutation();
+
+ 
+  const [changePassword, { isLoading: changing }] = useChangePasswordMutation();
+  const [forgotPassword, { isLoading: forgetting }] = useForgotPasswordMutation();
+  const [resetPassword, { isLoading: resetting }] = useResetPasswordMutation();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -19,6 +27,11 @@ const Profile = () => {
   });
 
   const [openModal, setOpenModal] = useState(false);
+
+
+  const [passwordForm, setPasswordForm] = useState({ oldPassword: "", newPassword: "" });
+  const [forgotForm, setForgotForm] = useState({ email: "" });
+  const [resetForm, setResetForm] = useState({ id: "", newPassword: "", token: "" });
 
   useEffect(() => {
     if (data?.data) {
@@ -44,13 +57,44 @@ const Profile = () => {
     }
   };
 
+
+  const handleChangePassword = async () => {
+    try {
+      await changePassword(passwordForm).unwrap();
+      toast.success("Password changed successfully!");
+      setPasswordForm({ oldPassword: "", newPassword: "" });
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Failed to change password!");
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    try {
+      await forgotPassword(forgotForm).unwrap();
+      toast.success("Password reset email sent!");
+      setForgotForm({ email: "" });
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Failed to send email!");
+    }
+  };
+
+  const handleResetPassword = async () => {
+    try {
+      await resetPassword(resetForm).unwrap();
+      toast.success("Password reset successfully!");
+      setResetForm({ id: "", newPassword: "", token: "" });
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Failed to reset password!");
+    }
+  };
+
   if (isLoading) return <Spinner />;
 
   return (
-    <div className="min-h-screen  py-6 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+    <div className="min-h-screen py-6 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
         <div className="bg-white dark:bg-gray-800 border rounded-2xl overflow-hidden md:flex">
-
+        
           <div className="md:w-1/3 bg-gray-50 dark:bg-gray-800 p-8 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-gray-200 dark:border-gray-600">
             <div className="w-32 h-32 rounded-full bg-indigo-600 dark:bg-indigo-500 flex items-center justify-center text-white text-4xl font-semibold mb-4 ring-4 ring-indigo-300 dark:ring-indigo-400">
               {data?.data?.name?.[0] || "U"}
@@ -67,7 +111,6 @@ const Profile = () => {
             </div>
           </div>
 
-
           <div className="md:w-2/3 p-8 flex flex-col justify-between">
             <div>
               <h3 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6 border-b pb-2 border-gray-200 dark:border-gray-700">Profile Details</h3>
@@ -83,7 +126,73 @@ const Profile = () => {
               </div>
             </div>
 
+           
+            <div className="mt-10">
+              <Tabs defaultValue="change" className="w-full">
+                <TabsList className="grid grid-cols-3 gap-2">
+                  <TabsTrigger value="change">Change Password</TabsTrigger>
+                  <TabsTrigger value="forgot">Forgot Password</TabsTrigger>
+                  <TabsTrigger value="reset">Reset Password</TabsTrigger>
+                </TabsList>
 
+                
+                <TabsContent value="change" className="mt-6 space-y-4">
+                  <Input
+                    type="password"
+                    placeholder="Old Password"
+                    value={passwordForm.oldPassword}
+                    onChange={(e) => setPasswordForm({ ...passwordForm, oldPassword: e.target.value })}
+                  />
+                  <Input
+                    type="password"
+                    placeholder="New Password"
+                    value={passwordForm.newPassword}
+                    onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+                  />
+                  <Button onClick={handleChangePassword} disabled={changing} className="w-full">
+                    {changing ? "Changing..." : "Change Password"}
+                  </Button>
+                </TabsContent>
+
+                
+                <TabsContent value="forgot" className="mt-6 space-y-4">
+                  <Input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={forgotForm.email}
+                    onChange={(e) => setForgotForm({ email: e.target.value })}
+                  />
+                  <Button onClick={handleForgotPassword} disabled={forgetting} className="w-full">
+                    {forgetting ? "Sending..." : "Send Reset Link"}
+                  </Button>
+                </TabsContent>
+
+               
+                <TabsContent value="reset" className="mt-6 space-y-4">
+                  <Input
+                    placeholder="User ID"
+                    value={resetForm.id}
+                    onChange={(e) => setResetForm({ ...resetForm, id: e.target.value })}
+                  />
+                  <Input
+                    type="password"
+                    placeholder="New Password"
+                    value={resetForm.newPassword}
+                    onChange={(e) => setResetForm({ ...resetForm, newPassword: e.target.value })}
+                  />
+                  <Input
+                    placeholder="Token"
+                    value={resetForm.token}
+                    onChange={(e) => setResetForm({ ...resetForm, token: e.target.value })}
+                  />
+                  <Button onClick={handleResetPassword} disabled={resetting} className="w-full">
+                    {resetting ? "Resetting..." : "Reset Password"}
+                  </Button>
+                </TabsContent>
+              </Tabs>
+            </div>
+
+           
             <div className="mt-8 md:mt-12 flex justify-end">
               <Dialog open={openModal} onOpenChange={setOpenModal}>
                 <DialogTrigger asChild>
