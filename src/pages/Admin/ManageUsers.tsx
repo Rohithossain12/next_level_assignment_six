@@ -35,7 +35,7 @@ const roles = ["SUPER_ADMIN", "ADMIN", "SENDER", "RECEIVER"];
 
 export default function ManageUsers() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const limit = 10;
 
 
   const [searchTerm, setSearchTerm] = useState("");

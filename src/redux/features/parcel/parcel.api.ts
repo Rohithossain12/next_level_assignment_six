@@ -57,7 +57,7 @@ export const parcelApi = baseApi.injectEndpoints({
 
     // Admin
     getAllParcels: builder.query({
-      query: (params: GetParcelsParams) => ({
+      query: (params?: GetParcelsParams) => ({
         url: "/parcel",
         method: "GET",
         params

@@ -8,16 +8,16 @@ import Spinner from "@/components/ui/Spinner";
 
 export default function Analytics() {
   const { data: usersData, isLoading: isLoadingUsers } = useGetAllUsersQuery({});
-  const { data: parcelsData, isLoading: isLoadingParcels } = useGetAllParcelsQuery(undefined);
+  const { data: parcelsData, isLoading: isLoadingParcels } = useGetAllParcelsQuery({ page: 1, limit: 100 });
 
   const users = usersData?.data || [];
   const parcels = parcelsData?.data || [];
 
-  
+
   const senders = users.filter((u: any) => u.role === "SENDER");
   const receivers = users.filter((u: any) => u.role === "RECEIVER");
 
- 
+
   const totalRevenue = parcels.reduce(
     (sum: number, parcel: any) => sum + (parcel.fee || 0),
     0
@@ -59,7 +59,7 @@ export default function Analytics() {
 
 
   if (isLoadingUsers || isLoadingParcels) {
-    return <Spinner/>;
+    return <Spinner />;
   }
 
   return (
