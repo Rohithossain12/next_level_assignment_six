@@ -6,6 +6,11 @@ import type { IResponse, ISendOtp, IVerifyOtp } from "@/types";
 interface GetUsersParams {
   page?: number;
   limit?: number;
+  searchTerm?: string;
+  role?: string;
+  name?: string;
+  email?: string;
+  address?: string;
 }
 
 interface IUser {
@@ -13,6 +18,7 @@ interface IUser {
   name: string;
   email: string;
   role: string;
+
 }
 
 
@@ -62,15 +68,13 @@ export const authApi = baseApi.injectEndpoints({
       providesTags: ["USER"],
     }),
 
-
-    getAllUsers: builder.query<IResponse<IUser[]>, { page?: number, limit?: number }>({
-      query: (params: GetUsersParams) => ({
+    getAllUsers: builder.query<IResponse<IUser[]>, GetUsersParams>({
+      query: (params) => ({
         url: "/user/all-users",
         method: "GET",
-        params
+        params,
       }),
       providesTags: ["USER"],
-
     }),
 
     getSingleUser: builder.query<IResponse<any>, string>({

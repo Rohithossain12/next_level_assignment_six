@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useGetAllUsersQuery, useUpdateUserMutation } from "@/redux/features/auth/auth.api";
-import { Pencil } from "lucide-react";
+import { Pencil, RotateCcw } from "lucide-react";
 import { useState } from "react";
 
 import {
@@ -36,7 +36,18 @@ const roles = ["SUPER_ADMIN", "ADMIN", "SENDER", "RECEIVER"];
 export default function ManageUsers() {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const { data, isLoading, isError } = useGetAllUsersQuery({ page: currentPage, limit });
+
+  
+  const [searchTerm, setSearchTerm] = useState("");
+  const [roleFilter, setRoleFilter] = useState("");
+
+  const { data, isLoading, isError } = useGetAllUsersQuery({
+    page: currentPage,
+    limit,
+    searchTerm: searchTerm || undefined,
+    role: roleFilter || undefined,
+  });
+
   const [updateUser] = useUpdateUserMutation();
 
   const [open, setOpen] = useState(false);
@@ -65,13 +76,60 @@ export default function ManageUsers() {
     }
   };
 
+  const handleReset = () => {
+    setSearchTerm("");
+    setRoleFilter("");
+    setCurrentPage(1);
+  };
+
   const totalPage = data?.meta?.totalPage || 1;
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold text-center mb-6 text-gray-900 dark:text-gray-100">
+      <h1 className="text-2xl font-bold  mb-6 text-gray-900 dark:text-gray-100">
         Manage Users
       </h1>
+
+      
+      <div className="flex flex-col sm:flex-row gap-3 mb-4 items-center justify-between">
+        <input
+          type="text"
+          placeholder="Search by name, email, or address..."
+          value={searchTerm}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setCurrentPage(1);
+          }}
+          className="w-full sm:w-1/3 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+        />
+
+        <Select
+          value={roleFilter}
+          onValueChange={(value) => {
+            setRoleFilter(value);
+            setCurrentPage(1);
+          }}
+        >
+          <SelectTrigger className="w-full sm:w-40">
+            <SelectValue placeholder="Filter by role" />
+          </SelectTrigger>
+          <SelectContent>
+            {roles.map((r) => (
+              <SelectItem key={r} value={r}>
+                {r}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Button
+          variant="outline"
+          onClick={handleReset}
+          className="flex items-center gap-2"
+        >
+          <RotateCcw className="w-4 h-4" /> Reset
+        </Button>
+      </div>
 
       <div className="overflow-x-auto border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
         <table className="w-full text-sm">
@@ -101,7 +159,7 @@ export default function ManageUsers() {
                 className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               >
                 <td className="py-3 px-4 text-gray-900 dark:text-gray-100">
-                  {index + 1}
+                  {(currentPage - 1) * limit + index + 1}
                 </td>
                 <td className="py-3 px-4 text-gray-900 dark:text-gray-100">
                   {user.name}
@@ -139,7 +197,7 @@ export default function ManageUsers() {
         </table>
       </div>
 
-      {/* Edit Role Modal */}
+     
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-sm">
           <DialogHeader>
@@ -179,44 +237,42 @@ export default function ManageUsers() {
 
       <div className="flex justify-end mt-4">
         {totalPage > 1 && (
-          <div >
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    onClick={() => setCurrentPage((prev) => prev - 1)}
-                    className={
-                      currentPage === 1
-                        ? "pointer-events-none opacity-50"
-                        : "cursor-pointer"
-                    }
-                  />
-                </PaginationItem>
-                {Array.from({ length: totalPage }, (_, index) => index + 1).map(
-                  (page) => (
-                    <PaginationItem
-                      key={page}
-                      onClick={() => setCurrentPage(page)}
-                    >
-                      <PaginationLink isActive={currentPage === page}>
-                        {page}
-                      </PaginationLink>
-                    </PaginationItem>
-                  )
-                )}
-                <PaginationItem>
-                  <PaginationNext
-                    onClick={() => setCurrentPage((prev) => prev + 1)}
-                    className={
-                      currentPage === totalPage
-                        ? "pointer-events-none opacity-50"
-                        : "cursor-pointer"
-                    }
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() => setCurrentPage((prev) => prev - 1)}
+                  className={
+                    currentPage === 1
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
+                />
+              </PaginationItem>
+              {Array.from({ length: totalPage }, (_, index) => index + 1).map(
+                (page) => (
+                  <PaginationItem
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                  >
+                    <PaginationLink isActive={currentPage === page}>
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                )
+              )}
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() => setCurrentPage((prev) => prev + 1)}
+                  className={
+                    currentPage === totalPage
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         )}
       </div>
     </div>
