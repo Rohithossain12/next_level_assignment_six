@@ -2,12 +2,21 @@ import type { ComponentType } from "react";
 
 export type { ISendOtp, ILogin, IVerifyOtp } from "./auth.type"
 
+export interface IMeta {
+  total: number;
+  page: number;
+  limit: number;
+  totalPage: number;
+}
+
+
 
 export interface IResponse<T> {
     statusCode: number;
     success: boolean;
     message: string;
     data: T;
+     meta?: IMeta;
 }
 
 

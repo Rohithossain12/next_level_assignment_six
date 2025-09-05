@@ -8,6 +8,13 @@ interface GetUsersParams {
   limit?: number;
 }
 
+interface IUser {
+  _id: string;
+  name: string;
+  email: string;
+  role: string;
+}
+
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -56,7 +63,7 @@ export const authApi = baseApi.injectEndpoints({
     }),
 
 
-    getAllUsers: builder.query<IResponse<any>, { page?: number, limit?: number }>({
+    getAllUsers: builder.query<IResponse<IUser[]>, { page?: number, limit?: number }>({
       query: (params: GetUsersParams) => ({
         url: "/user/all-users",
         method: "GET",

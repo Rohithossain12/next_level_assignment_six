@@ -1,5 +1,12 @@
 import { baseApi } from "@/redux/baseApi";
 
+
+interface GetParcelsParams {
+  page?: number;
+  limit?: number;
+}
+
+
 export const parcelApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
 
@@ -13,7 +20,7 @@ export const parcelApi = baseApi.injectEndpoints({
       invalidatesTags: ["PARCEL"],
     }),
 
-   
+
     cancelParcel: builder.mutation({
       query: (id) => ({
         url: `/parcel/cancel/${id}`,
@@ -22,7 +29,7 @@ export const parcelApi = baseApi.injectEndpoints({
       invalidatesTags: ["PARCEL"],
     }),
 
-    
+
     getMyParcels: builder.query({
       query: () => ({
         url: "/parcel/me",
@@ -50,9 +57,10 @@ export const parcelApi = baseApi.injectEndpoints({
 
     // Admin
     getAllParcels: builder.query({
-      query: () => ({
+      query: (params: GetParcelsParams) => ({
         url: "/parcel",
         method: "GET",
+        params
       }),
       providesTags: ["PARCEL"],
     }),

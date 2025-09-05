@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import {
@@ -15,6 +16,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import type { ParcelStatus } from "@/types/parcel.type";
 import { ParcelStatusValues } from "@/types/parcel.type";
 import Spinner from "@/components/ui/Spinner";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 
 const statusTextColors: Record<string, string> = {
@@ -28,12 +30,15 @@ const statusTextColors: Record<string, string> = {
 };
 
 const GetAllParcels = () => {
-  const { data, isLoading, isError } = useGetAllParcelsQuery(undefined);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const { data, isLoading, isError } = useGetAllParcelsQuery({ page: currentPage, limit });
   const [updateStatus] = useUpdateParcelStatusMutation();
   const [blockParcel] = useBlockParcelMutation();
 
+
   const [updatingId, setUpdatingId] = useState<string | null>(null);
-  const [blockedIds, setBlockedIds] = useState<string[]>([]); 
+  const [blockedIds, setBlockedIds] = useState<string[]>([]);
   const handleStatusChange = async (id: string, status: ParcelStatus) => {
     try {
       setUpdatingId(id);
@@ -50,7 +55,7 @@ const GetAllParcels = () => {
     try {
       await blockParcel(id).unwrap();
       toast.success("Parcel blocked successfully");
-      setBlockedIds((prev) => [...prev, id]); 
+      setBlockedIds((prev) => [...prev, id]);
     } catch (err: any) {
       toast.error(err?.data?.message || "Failed to block parcel");
     }
@@ -58,6 +63,13 @@ const GetAllParcels = () => {
 
   if (isLoading) return <Spinner />;
   if (isError) return <p className="text-red-500">Failed to load parcels</p>;
+
+
+
+
+  const totalPage = data?.meta?.totalPage || 1;
+
+
 
   return (
     <div className="p-3">
@@ -67,6 +79,11 @@ const GetAllParcels = () => {
           <TableHeader className="bg-gray-50 dark:bg-gray-800">
             <TableRow>
               <TableHead className="text-left text-gray-700 dark:text-gray-200">#</TableHead>
+
+              <TableHead className="text-left text-gray-700 dark:text-gray-200">TxnID</TableHead>
+
+              <TableHead className="text-left text-gray-700 dark:text-gray-200">Type</TableHead>
+              <TableHead className="text-left text-gray-700 dark:text-gray-200">Pickup</TableHead>
               <TableHead className="text-left text-gray-700 dark:text-gray-200">Sender</TableHead>
               <TableHead className="text-left text-gray-700 dark:text-gray-200">Receiver</TableHead>
               <TableHead className="text-left text-gray-700 dark:text-gray-200">Status</TableHead>
@@ -85,18 +102,22 @@ const GetAllParcels = () => {
               return (
                 <TableRow key={parcel._id} className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                   <TableCell className="px-4 py-3 text-gray-900 dark:text-gray-100">{index + 1}</TableCell>
+                  <TableCell className="px-4 py-3 text-gray-900 dark:text-gray-100">{parcel?.trackingId}</TableCell>
+                  <TableCell className="px-4 py-3 text-gray-900 dark:text-gray-100">{parcel?.type}</TableCell>
+                  <TableCell className="px-4 py-3 text-gray-900 dark:text-gray-100">{parcel?.
+                    pickupAddress}</TableCell>
                   <TableCell className="px-4 py-3 text-gray-900 dark:text-gray-100">{parcel.sender?.name}</TableCell>
                   <TableCell className="px-4 py-3 text-gray-900 dark:text-gray-100">{parcel.receiver?.name}</TableCell>
                   <TableCell className={`px-4 py-3 font-medium ${statusTextColors[currentStatus]}`}>
                     {currentStatus}
                   </TableCell>
-                  <TableCell className="px-4 py-3 flex gap-10"> 
+                  <TableCell className="px-4 py-3 flex gap-5">
                     <Select
                       onValueChange={(value) =>
                         handleStatusChange(parcel._id, value as ParcelStatus)
                       }
                       defaultValue={currentStatus}
-                      disabled={updatingId === parcel._id || isCanceled || isBlocked} 
+                      disabled={updatingId === parcel._id || isCanceled || isBlocked}
                     >
                       <SelectTrigger className="w-[150px]">
                         <SelectValue placeholder="Update Status" />
@@ -114,7 +135,7 @@ const GetAllParcels = () => {
                     <Button
                       size="sm"
                       onClick={() => handleBlock(parcel._id)}
-                      disabled={isCanceled || isBlocked} 
+                      disabled={isCanceled || isBlocked}
                       variant={isBlocked ? "outline" : "default"}
                     >
                       {isBlocked ? "Blocked" : "Block"}
@@ -126,6 +147,48 @@ const GetAllParcels = () => {
           </TableBody>
         </Table>
       </div>
+     <div className="flex justify-end mt-4">
+       {totalPage > 1 && (
+        <div >
+          <Pagination >
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() => setCurrentPage((prev) => prev - 1)}
+                  className={
+                    currentPage === 1
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
+                />
+              </PaginationItem>
+              {Array.from({ length: totalPage }, (_, index) => index + 1).map(
+                (page) => (
+                  <PaginationItem
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                  >
+                    <PaginationLink isActive={currentPage === page}>
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                )
+              )}
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() => setCurrentPage((prev) => prev + 1)}
+                  className={
+                    currentPage === totalPage
+                      ? "pointer-events-none opacity-50"
+                      : "cursor-pointer"
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      )}
+     </div>
     </div>
   );
 };
