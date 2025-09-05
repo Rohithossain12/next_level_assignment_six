@@ -37,7 +37,7 @@ export default function ManageUsers() {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
 
-  
+
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
 
@@ -90,7 +90,7 @@ export default function ManageUsers() {
         Manage Users
       </h1>
 
-      
+
       <div className="flex flex-col sm:flex-row gap-3 mb-4 items-center justify-between">
         <input
           type="text"
@@ -197,7 +197,7 @@ export default function ManageUsers() {
         </table>
       </div>
 
-     
+
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-sm">
           <DialogHeader>

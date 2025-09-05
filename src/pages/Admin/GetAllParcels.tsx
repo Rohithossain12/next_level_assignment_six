@@ -86,6 +86,8 @@ const GetAllParcels = () => {
               <TableHead className="text-left text-gray-700 dark:text-gray-200">Pickup</TableHead>
               <TableHead className="text-left text-gray-700 dark:text-gray-200">Sender</TableHead>
               <TableHead className="text-left text-gray-700 dark:text-gray-200">Receiver</TableHead>
+              <TableHead className="text-left text-gray-700 dark:text-gray-200">Weight</TableHead>
+              <TableHead className="text-left text-gray-700 dark:text-gray-200">Fee</TableHead>
               <TableHead className="text-left text-gray-700 dark:text-gray-200">Status</TableHead>
               <TableHead className="text-left text-gray-700 dark:text-gray-200">Actions</TableHead>
             </TableRow>
@@ -108,6 +110,8 @@ const GetAllParcels = () => {
                     pickupAddress}</TableCell>
                   <TableCell className="px-4 py-3 text-gray-900 dark:text-gray-100">{parcel.sender?.name}</TableCell>
                   <TableCell className="px-4 py-3 text-gray-900 dark:text-gray-100">{parcel.receiver?.name}</TableCell>
+                  <TableCell className="px-4 py-3 text-gray-900 dark:text-gray-100">{parcel.weight}Kg</TableCell>
+                  <TableCell className="px-4 py-3 text-gray-900 dark:text-gray-100">${parcel.fee}</TableCell>
                   <TableCell className={`px-4 py-3 font-medium ${statusTextColors[currentStatus]}`}>
                     {currentStatus}
                   </TableCell>
