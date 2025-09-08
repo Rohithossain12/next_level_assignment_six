@@ -1,6 +1,8 @@
 # Trackfast — Frontend
 
-**Project Name:** Trackfast — Parcel Delivery System (Frontend)
+**Project Name:** Trackfast — Parcel Delivery System 
+
+**Description:** Trackfast is a role-based parcel delivery management system where senders, receivers, admins, and super admins can seamlessly manage parcel requests, track deliveries, and handle user or parcel operations through an intuitive and responsive web interface.
 
 ---
 
@@ -18,7 +20,7 @@
 
   * **Sender**: Create parcel requests, cancel if not dispatched, view parcel status
   * **Receiver**: View incoming parcels, confirm delivery, view history
-  * **Admin**: Manage users (block/unblock), manage parcels (update status, block/unblock)
+  * **Admin & Super Admin**: Manage users (block/unblock), manage parcels (update status, block/unblock)
 * Parcel Tracking by unique tracking ID
 * Status Timeline with updates (status, timestamp, updatedBy, note)
 * Data Visualization: Overview cards, charts (status distribution, monthly shipments)
