@@ -1,6 +1,12 @@
 # Trackfast — Frontend
 
-**Project Name:** Trackfast — Parcel Delivery System 
+**Project Name:** Trackfast — Parcel Delivery System (Frontend)
+
+---
+
+## 🌐 Live URL
+
+[Trackfast Live Site](https://next-level-assignment-six.vercel.app)
 
 ---
 
@@ -18,6 +24,7 @@
 * Data Visualization: Overview cards, charts (status distribution, monthly shipments)
 * Parcel Table: Paginated, searchable, filterable with actions
 * Responsive UI with clean design
+* Light/Dark mode support
 * Toast Notifications for success/error feedback
 
 ---
@@ -26,7 +33,7 @@
 
 * **Frontend Framework**: React 19 + TypeScript
 * **Build Tool**: Vite
-* **Styling**: Tailwind CSS
+* **Styling**: Tailwind CSS + shadcn/ui
 * **State Management**: Redux Toolkit + RTK Query
 * **Routing**: React Router
 * **Forms**: React Hook Form + Zod validation
@@ -42,6 +49,7 @@
 * Fully responsive design for all devices
 * Clean typography and accessible color contrast
 * Modular, reusable components
+* Supports both **Dark & Light** mode with `next-themes`
 
 ---
 
