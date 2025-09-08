@@ -1,69 +1,48 @@
-# React + TypeScript + Vite
+# Trackfast — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Project Name:** Trackfast — Parcel Delivery System 
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+* Public Pages: Home, About, Contact
+* Authentication (Login & Register with role selection: Sender/Receiver)
+* Role-based dashboards:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+  * **Sender**: Create parcel requests, cancel if not dispatched, view parcel status
+  * **Receiver**: View incoming parcels, confirm delivery, view history
+  * **Admin**: Manage users (block/unblock), manage parcels (update status, block/unblock)
+* Parcel Tracking by unique tracking ID
+* Status Timeline with updates (status, timestamp, updatedBy, note)
+* Data Visualization: Overview cards, charts (status distribution, monthly shipments)
+* Parcel Table: Paginated, searchable, filterable with actions
+* Responsive UI with clean design
+* Toast Notifications for success/error feedback
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## 🛠️ Technology Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+* **Frontend Framework**: React 19 + TypeScript
+* **Build Tool**: Vite
+* **Styling**: Tailwind CSS
+* **State Management**: Redux Toolkit + RTK Query
+* **Routing**: React Router
+* **Forms**: React Hook Form + Zod validation
+* **HTTP Client**: Axios
+* **Icons**: Lucide React
+* **Notifications**: Sonner
+* **Date Utilities**: date-fns
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📌 Notes
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+* Fully responsive design for all devices
+* Clean typography and accessible color contrast
+* Modular, reusable components
+
+---
+
+**Trackfast — Simple, Fast & Reliable Parcel Delivery.**
